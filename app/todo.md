@@ -1,5 +1,7 @@
+Oque o app vai fazer/funcionalidades do app
+
 - Criar metas
-- listar metas
-- marcar e desmarcar metas realizadas ou nao
-- remover metas
-- sistema de mensagens
+- Listar metas
+- Marcar e desmarcar metas realizadas ou nao
+- Remover metas
+- Sistema de mensagens(me notificar)
