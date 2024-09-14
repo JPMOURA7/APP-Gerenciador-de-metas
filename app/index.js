@@ -26,19 +26,24 @@ async function listarMetas (){
     const respostas = await checkbox(
     {
     message : "Use as setas para mudar de meta, o espaço para marcar ou desmarcar e o enter para finalizar essa etapa",
-    choices: [...metas]
+    choices: [...metas],
+    instructions:false
     }
 )
     if(respostas.lenght){
         console.log("Nenhuma meta selecionada!")
         return
     }
+    metas.forEach((m) => {
+        m.checked = false
+    } )
     respostas.forEach((respost) => {
         const meta = metas.find((m) => {
             return m.value == resposta
         })
         meta.checkbox = true
     })
+    console.log('meta(s) marcadas como concluida(s)')
 }
 
 async function start(){
