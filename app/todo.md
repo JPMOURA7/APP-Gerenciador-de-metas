@@ -4,4 +4,4 @@ Oque o app vai fazer/funcionalidades do app
 - Listar metas
 - Marcar e desmarcar metas realizadas ou nao
 - Remover metas
-- Sistema de mensagens
+- Sistema de mensagens(me notificar)
