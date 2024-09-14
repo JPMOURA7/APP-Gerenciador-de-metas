@@ -1,4 +1,5 @@
 const { select, input, checkbox} = require('@inquirer/prompts')
+
 let meta = {
     value:'Tomar agua',
     checked:false
@@ -28,22 +29,39 @@ async function listarMetas (){
     message : "Use as setas para mudar de meta, o espaço para marcar ou desmarcar e o enter para finalizar essa etapa",
     choices: [...metas],
     instructions:false
-    }
-)
+    })
+
+    metas.forEach((m) => {
+    m.checked = false
+    })
+
     if(respostas.lenght){
         console.log("Nenhuma meta selecionada!")
         return
     }
-    metas.forEach((m) => {
-        m.checked = false
-    } )
-    respostas.forEach((respost) => {
+
+    respostas.forEach((resposta) => {
         const meta = metas.find((m) => {
             return m.value == resposta
         })
         meta.checkbox = true
     })
+    
     console.log('meta(s) marcadas como concluida(s)')
+}
+const metasRealizadas = async () => {
+    const realizadas = metas.filter((meta) => {
+        return meta.checked
+    })
+    if(realizadas.lenght == 0){
+        console.log("Nenhuma meta realizada :c")
+        return
+    }
+    await select({
+        message: "Metas realizadas",
+        choices: [...realizadas]
+    })
+
 }
 
 async function start(){
@@ -60,23 +78,34 @@ async function start(){
                 value:"listar"
             },
             {
+                name: "Metas realizadas",
+                value: "realizadas"
+            },
+            {
+                name: "Metas abertas",
+                value: "abertas"
+            },
+            {
                 name: "Sair",
                 value: "sair"
             }
+
         ]
         })
 
         switch(opcao){
             case "cadastrar":
                 await cadastrarMetas();
-                console.log(metas)
+                console.log(metas);
                 break
             case "listar":
-                await listarMetas()
-                console.log()
+                await listarMetas();
+                console.log();
                 break
+            case "realizadas":
+                await metasRealizadas();
             case "sair":
-                console.log("Até a próxima")
+                console.log("Até a próxima");
             return
         }
         return
