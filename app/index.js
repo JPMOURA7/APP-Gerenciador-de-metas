@@ -1,12 +1,23 @@
 const { select, input, checkbox} = require('@inquirer/prompts')
+const fs = require("fs").promises
 
-let meta = {
-    value:'Tomar agua',
-    checked:false
+
+let mensagem = "Bem-vindo(a) ao App de Metas";
+
+let metas 
+
+const carregarMetas = async () => {
+    try {
+        const dados = await fs.readFile("metas.json", "utf-8")
+        metas = JSON.parse(dados)
+    }
+    catch(erro){
+       
+    }
 }
-
-let metas = [meta]
-
+const salvarMetas = async () => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+}
 async function cadastrarMetas(){
     const meta = await input (
         {message: "Digite a sua meta;" }
@@ -14,14 +25,15 @@ async function cadastrarMetas(){
     )
     if (meta.length == 0)
     {
-        console.log("A meta não pode ser vazia")
+        mensagem = "A meta não pode ser vazia"
         return
     }
     metas.push(
         {
-            value: meta, checked: false
+            value:meta, checked: false
         }
     )
+    mensagem = "Meta cadastrada com sucesso!";
 }
 async function listarMetas (){
     const respostas = await checkbox(
@@ -36,7 +48,7 @@ async function listarMetas (){
     })
 
     if(respostas.length == 0){
-        console.log("Nenhuma meta selecionada!")
+        mensagem = "Nenhuma meta selecionada!";
         return
     }
 
@@ -44,21 +56,21 @@ async function listarMetas (){
         const meta = metas.find((m) => {
             return m.value == resposta
         })
-        meta.checkbox = true
+        meta.checked = true
     })
 
-    console.log('Meta(s) marcadas como concluida(s)')
+    mensagem = 'Meta(s) marcadas como concluida(s)'
 }
 const metasRealizadas = async () => {
     const realizadas = metas.filter((meta) => {
         return meta.checked
     })
     if (realizadas.length == 0){
-        console.log("Nenhuma meta realizada :(")
+        mensagem = "Nenhuma meta realizada :("
         return
     }
     await select ({
-        message: "Metas realizadas " + realizadas.length,
+        message: "Metas realizadas: " + realizadas.length,
         choices: [...realizadas]
     })
 }
@@ -67,11 +79,11 @@ const metasAbertas = async () => {
         return meta.checked != true
     })
     if (abertas.length == 0){
-        console.log("Não existem metas abertas :)")
+        mensagem = "Não existem metas abertas :)"
         return
     }
     await select ({
-        message: "Metas abertas " +  abertas.length,
+        message: "Metas abertas: " +  abertas.length,
         choices: [...abertas]
     })
 }
@@ -88,21 +100,34 @@ const deletarMetas = async () => {
         instructions:false
         })
         if(itensADeletar.length == 0){
-            console.log("Nenhum item para deletar")
+            mensagem = "Nenhum item para deletar"
 
         }
         itensADeletar.forEach((item) => {
             metas = metas.filter((meta) => {
-                return meta.value != true
+                return meta.value != item
             })
         })
-        console.log("Meta(s) deletada(s) com sucesso")
+        mensagem = "Meta(s) deletada(s) com sucesso"
 }
+const mostrarMensagem = () => {
+    console.clear();
 
+    if( mensagem != ""){
+        console.log(mensagem)
+        console.log("")
+        mensagem = ""
+    }
+}
 async function start(){
+
+    await carregarMetas();
+
     while(true) {
+
+
         const opcao = await select ({
-            message: "Menu",
+            message: "Menu >",
             choices: [
             {
                 name:"Cadastrar meta",
@@ -135,11 +160,11 @@ async function start(){
         switch(opcao){
             case "cadastrar":
                 await cadastrarMetas();
-                console.log(metas);
+                await salvarMetas();
                 break
             case "listar":
                 await listarMetas();
-                console.log();
+                await salvarMetas();
                 break
             case "realizadas":
                 await metasRealizadas();
@@ -149,12 +174,14 @@ async function start(){
                 break
             case "deletar":
                 await deletarMetas();
+                await salvarMetas();
                 break
             case "sair":
-                console.log("Até a próxima");
+                console.log("Até a próxima")
             return
         }
         return
     }
 }
 start();
+mostrarMensagem();
