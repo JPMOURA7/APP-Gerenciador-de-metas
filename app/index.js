@@ -33,7 +33,7 @@ async function cadastrarMetas(){
             value:meta, checked: false
         }
     )
-    mensagem = "Meta cadastrada com sucesso!";
+    mensagem = "Meta cadastrada com sucesso!"
 }
 async function listarMetas (){
     const respostas = await checkbox(
@@ -125,6 +125,7 @@ async function start(){
 
     while(true) {
 
+        mostrarMensagem();
 
         const opcao = await select ({
             message: "Menu >",
@@ -184,4 +185,3 @@ async function start(){
     }
 }
 start();
-mostrarMensagem();
