@@ -25,7 +25,7 @@ async function cadastrarMetas(){
     )
     if (meta.length == 0)
     {
-        mensagem = "A meta não pode ser vazia"
+        console.log("A meta não pode ser vazia")
         return
     }
     metas.push(
@@ -33,11 +33,11 @@ async function cadastrarMetas(){
             value:meta, checked: false
         }
     )
-    mensagem = "Meta cadastrada com sucesso!"
+    console.log("Meta cadastrada com sucesso!")
 }
 async function listarMetas (){
     if(metas.length == 0){
-        mensagem = "Não tem nenhuma meta"
+        console.log("Não tem nenhuma meta")
         return
     }
     const respostas = await checkbox(
@@ -52,7 +52,7 @@ async function listarMetas (){
     })
 
     if(respostas.length == 0){
-        mensagem = "Nenhuma meta selecionada!";
+        console.log("Nenhuma meta selecionada!")
         return
     }
 
@@ -63,18 +63,18 @@ async function listarMetas (){
         meta.checked = true
     })
 
-    mensagem = 'Meta(s) marcadas como concluida(s)'
+    console.log("Meta(s) marcadas como concluida(s)")
 }
 const metasRealizadas = async () => {
     if(metas.length == 0){
-        mensagem = "Não tem nenhuma meta"
+        console.log("Não tem nenhuma meta")
         return
     }
     const realizadas = metas.filter((meta) => {
         return meta.checked
     })
     if (realizadas.length == 0){
-        mensagem = "Nenhuma meta realizada :("
+        console.log("Nenhuma meta realizada :(")
         return
     }
     await select ({
@@ -84,14 +84,14 @@ const metasRealizadas = async () => {
 }
 const metasAbertas = async () => {
     if(metas.length == 0){
-        mensagem = "Não tem nenhuma meta"
+        console.log("Não tem nenhuma meta")
         return
     }
     const abertas = metas.filter((meta) => {
         return meta.checked != true
     })
     if (abertas.length == 0){
-        mensagem = "Não existem metas abertas :)"
+        console.log("Não existem metas abertas :)")
         return
     }
     await select ({
@@ -101,7 +101,7 @@ const metasAbertas = async () => {
 }
 const deletarMetas = async () => {
     if(metas.length == 0){
-        mensagem = "Não tem nenhuma meta"
+        console.log("Não tem nenhuma meta")
         return
     }
     const metasDesmarcadas = metas.map((meta) => {
@@ -116,7 +116,7 @@ const deletarMetas = async () => {
         instructions:false
         })
         if(itensADeletar.length == 0){
-            mensagem = "Nenhum item para deletar"
+            console.log("Nenhum item para deletar")
 
         }
         itensADeletar.forEach((item) => {
@@ -124,13 +124,12 @@ const deletarMetas = async () => {
                 return meta.value != item
             })
         })
-        mensagem = "Meta(s) deletada(s) com sucesso"
+        console.log("Meta(s) deletada(s) com sucesso")
 }
 const mostrarMensagem = () => {
     console.clear();
 
     if( mensagem != ""){
-        console.log(mensagem)
         console.log("")
         mensagem = ""
     }
