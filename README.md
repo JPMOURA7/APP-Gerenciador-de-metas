@@ -5,7 +5,7 @@
 
 <h1>Sobre o projeto</h1>
 <p>Aplicação Back-end</p>
-<p>O projeto foi desenvolvido a partir da #8 NLW POCKET JavaScript|Rocketseat,com aulas ministradas por Maik.A #8 NLW POCKET Javascript me guiou durante a construção dessa aplicação incrível,feita com Javascript e Node.js.</p>
+<p>O projeto foi desenvolvido a partir da #8 NLW POCKET JavaScript | Rocketseat,com aulas ministradas por Maik Brito. A #8 NLW POCKET Javascript me guiou durante a construção dessa aplicação incrível,feita com Javascript e Node.js.</p>
 
 <h1>Como usar a aplicação?</h1>
 <p>Para usar a aplicação basta seguir essas instruções:</p>
